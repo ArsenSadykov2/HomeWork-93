@@ -6,7 +6,7 @@ export type AlbumDocument = Album & Document;
 
 @Schema()
 export class Album {
-  @Prop()
+  @Prop({ required: true })
   artist: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true })
@@ -15,8 +15,8 @@ export class Album {
   @Prop()
   date: string;
 
-  @Prop()
-  image: string;
+  @Prop({ default: null, type: String })
+  image: string | null;
 }
 
 export const AlbumSchema = SchemaFactory.createForClass(Album);

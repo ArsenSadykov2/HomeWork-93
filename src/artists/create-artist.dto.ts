@@ -1,5 +1,5 @@
 export class CreateArtist {
   name: string;
-  image: string;
+  image: string | null;
   description: string;
 }
