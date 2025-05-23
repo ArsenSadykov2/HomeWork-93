@@ -13,6 +13,9 @@ export class Artist {
 
   @Prop({ default: null, type: String })
   description: string | null;
+
+  @Prop({ default: null, type: Boolean })
+  isPublished: false;
 }
 
 export const ArtistSchema = SchemaFactory.createForClass(Artist);

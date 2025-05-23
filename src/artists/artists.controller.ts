@@ -6,6 +6,7 @@ import {
   Body,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -41,5 +42,9 @@ export class ArtistsController {
       description: artistDto.description,
     });
     return artist.save();
+  }
+  @Delete(':id')
+  deleteOne(@Param('id') id: string) {
+    return this.artistModel.deleteOne({ _id: id });
   }
 }
