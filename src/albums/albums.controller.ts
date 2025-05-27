@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -24,7 +25,7 @@ export class AlbumsController {
     private albumModel: Model<AlbumDocument>,
   ) {}
   @Get('artist/:artistId')
-  async getAll(@Param('artistId') artistId: string) {
+  async getAll(@Query('artistId') artistId: string) {
     return this.albumModel.find({ artist: artistId }).populate('artist').exec();
   }
   @Get(':id')

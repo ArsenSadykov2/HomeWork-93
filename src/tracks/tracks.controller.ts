@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tracks, TracksDocument } from '../schemas/tracks.schema';
@@ -21,7 +22,7 @@ export class TracksController {
     private trackModel: Model<TracksDocument>,
   ) {}
   @Get('album/:albumId')
-  async getAll(@Param('albumId') albumId: mongoose.Schema.Types.ObjectId) {
+  async getAll(@Query('albumId') albumId: mongoose.Schema.Types.ObjectId) {
     return this.trackModel.find({ album: albumId }).populate('album').exec();
   }
   @Get(':id')
