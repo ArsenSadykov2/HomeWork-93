@@ -9,6 +9,9 @@ import { Artist, ArtistSchema } from './schemas/artist.schema';
 import { TracksController } from './tracks/tracks.controller';
 import { Tracks, TracksSchema } from './schemas/tracks.schema';
 import { User, UserSchema } from './schemas/user.schema';
+import { UsersController } from './users/users.controller';
+import { AuthService } from './auth/auth.service';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [
@@ -25,7 +28,8 @@ import { User, UserSchema } from './schemas/user.schema';
     ArtistsController,
     AlbumsController,
     TracksController,
+    UsersController,
   ],
-  providers: [AppService],
+  providers: [AppService, AuthService, LocalStrategy],
 })
 export class AppModule {}

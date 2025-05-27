@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Param, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Delete,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tracks, TracksDocument } from '../schemas/tracks.schema';
 import mongoose, { Model } from 'mongoose';
 import { CreateTrackDto } from './create-track.dto';
+import { TokenAuthGuard } from '../token-auth/token-auth.guard';
 
 @Controller('tracks')
 export class TracksController {
@@ -18,6 +27,7 @@ export class TracksController {
   getOne(@Param('id') id: string) {
     return this.trackModel.find({ _id: id });
   }
+  @UseGuards(TokenAuthGuard)
   @Post()
   create(@Body() trackDto: CreateTrackDto) {
     const track = new this.trackModel({

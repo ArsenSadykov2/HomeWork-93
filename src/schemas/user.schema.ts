@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { randomUUID } from 'node:crypto';
-import argon2 from 'argon2';
+import * as argon2 from 'argon2';
 
 const ARGON2_OPTIONS = {
   type: argon2.argon2id,
@@ -10,12 +10,23 @@ const ARGON2_OPTIONS = {
   parallelism: 1,
 };
 
-export type UserDocument = User & Document;
+export interface UserDocument extends Document, User {
+  generateToken: () => void;
+  checkPassword: (password: string) => Promise<boolean>;
+}
 
 @Schema()
 export class User {
   @Prop({ required: true, unique: true })
   email: string;
+
+  @Prop({
+    required: true,
+    unique: true,
+    default: 'user',
+    enum: ['user', 'admin'],
+  })
+  role: string;
 
   @Prop({ required: true })
   displayName: string;

@@ -7,12 +7,14 @@ import {
   UseInterceptors,
   UploadedFile,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Artist, ArtistDocument } from '../schemas/artist.schema';
 import { CreateArtist } from './create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { TokenAuthGuard } from '../token-auth/token-auth.guard';
 
 @Controller('artists')
 export class ArtistsController {
@@ -28,6 +30,7 @@ export class ArtistsController {
   getOne(@Param('id') id: string) {
     return this.artistModel.find({ _id: id });
   }
+  @UseGuards(TokenAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('image', { dest: './public/uploads/artists' }),
