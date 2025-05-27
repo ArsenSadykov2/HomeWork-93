@@ -12,6 +12,7 @@ import { Tracks, TracksDocument } from '../schemas/tracks.schema';
 import mongoose, { Model } from 'mongoose';
 import { CreateTrackDto } from './create-track.dto';
 import { TokenAuthGuard } from '../token-auth/token-auth.guard';
+import { AdminGuard } from '../role-auth/role-auth.guard';
 
 @Controller('tracks')
 export class TracksController {
@@ -38,6 +39,7 @@ export class TracksController {
     });
     return track.save();
   }
+  @UseGuards(AdminGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: string) {
     return this.trackModel.deleteOne({ _id: id });

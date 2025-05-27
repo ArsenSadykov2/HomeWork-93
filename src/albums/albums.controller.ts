@@ -15,6 +15,7 @@ import { Model } from 'mongoose';
 import { CreateAlbumDto } from './create-album.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TokenAuthGuard } from '../token-auth/token-auth.guard';
+import { AdminGuard } from '../role-auth/role-auth.guard';
 
 @Controller('albums')
 export class AlbumsController {
@@ -50,6 +51,7 @@ export class AlbumsController {
     return await album.save();
   }
 
+  @UseGuards(AdminGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: string) {
     return this.albumModel.deleteOne({ _id: id });

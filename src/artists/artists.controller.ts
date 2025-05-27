@@ -15,6 +15,7 @@ import { Artist, ArtistDocument } from '../schemas/artist.schema';
 import { CreateArtist } from './create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TokenAuthGuard } from '../token-auth/token-auth.guard';
+import { AdminGuard } from '../role-auth/role-auth.guard';
 
 @Controller('artists')
 export class ArtistsController {
@@ -46,6 +47,7 @@ export class ArtistsController {
     });
     return artist.save();
   }
+  @UseGuards(AdminGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: string) {
     return this.artistModel.deleteOne({ _id: id });

@@ -11,7 +11,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
 import { Model } from 'mongoose';
-import { RegisterUserDto } from './register-user.dto';
+import { UserDto } from './user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { TokenAuthGuard } from '../token-auth/token-auth.guard';
@@ -21,9 +21,11 @@ export class UsersController {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   @Post()
-  register(@Body() registerUserDtp: RegisterUserDto) {
+  register(@Body() registerUserDtp: UserDto) {
     const user = new this.userModel({
+      username: registerUserDtp.username,
       email: registerUserDtp.email,
+      role: registerUserDtp.role,
       displayName: registerUserDtp.displayName,
       password: registerUserDtp.password,
     });

@@ -10,6 +10,11 @@ const ARGON2_OPTIONS = {
   parallelism: 1,
 };
 
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+}
+
 export interface UserDocument extends Document, User {
   generateToken: () => void;
   checkPassword: (password: string) => Promise<boolean>;
@@ -18,11 +23,12 @@ export interface UserDocument extends Document, User {
 @Schema()
 export class User {
   @Prop({ required: true, unique: true })
+  username: string;
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop({
     required: true,
-    unique: true,
     default: 'user',
     enum: ['user', 'admin'],
   })
@@ -34,7 +40,7 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: true })
+  @Prop()
   token: string;
 }
 
